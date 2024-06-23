@@ -21,6 +21,7 @@ def time_values() -> list:
             seconds = f'0{seconds}'
         values.append(f'{hours}:{minutes}:{seconds}')
     return values
+
 def time_list_to_string(time:list) -> str:
     seconds = time[2]
     minutes = time[1]
@@ -29,8 +30,24 @@ def time_list_to_string(time:list) -> str:
         minutes = f'0{minutes}'
     if seconds < 10:
         seconds = f'0{seconds}'
-    #print(f'{hours}:{minutes}:{seconds}')
     return f'{hours}:{minutes}:{seconds}'
+
+def cmp_time(a:list, b:list) -> bool:
+    if a[0] != b[0]:
+        return a[0] > b[0]
+    if a[1] != b[1]:
+        return a[1] > b[1]
+    if a[2] != b[2]:
+        return a[2] > b[2]
+    return False
+
+def sort_by_start(settings:dict) -> dict:
+    tmp = list(settings.items())
+    for i in range(0, len(tmp)-1):
+        for j in range(i, len(tmp)):
+            if cmp_time(tmp[i][1][0], tmp[j][1][0]):
+                tmp[i], tmp[j] = tmp[j], tmp[i]
+    return dict(tmp)
 
 class Window:
     #transform:(width, height, xpos, ypos)
@@ -84,6 +101,7 @@ class Window:
         modes_listbox.pack(fill='both')
 
         #Fixed entries
+        fixed_theme_label = tk.Label(frame_change_mode, text='Fixed theme')
         fixed_theme_var = tk.StringVar(value=self.data['Fixed theme'])
         fixed_theme_entry = tk.Spinbox(frame_change_mode,
                                        command=lambda:self._update_fixed(what='theme',
@@ -91,6 +109,7 @@ class Window:
                                        values=list(self.data['Themes'].keys()),
                                        wrap=True,
                                        textvariable=fixed_theme_var)
+        fixed_interval_label = tk.Label(frame_change_mode, text='Fixed interval')
         fixed_interval_var = tk.StringVar(value=time_list_to_string(self.data['Fixed interval']))
         fixed_interval_entry = tk.Spinbox(frame_change_mode,
                                           command=lambda:self._update_fixed(what='interval',
@@ -99,7 +118,9 @@ class Window:
                                           textvariable=fixed_interval_var)
         fixed_interval_var.set(time_list_to_string(self.data['Fixed interval']))
 
+        fixed_theme_label.pack()
         fixed_theme_entry.pack()
+        fixed_interval_label.pack()
         fixed_interval_entry.pack()
 
         #Theme explorer
@@ -223,6 +244,7 @@ class Window:
             self._update_setting(listbox)
 
     def _update_setting(self, listbox:tk.Listbox):
+        self.data['Settings'] = sort_by_start(self.data['Settings'])
         listbox.delete(first=0, last=listbox.size())
         for key in self.data['Settings']:
             listbox_mask = key + " | " + time_list_to_string(self.data['Settings'][key][0]) + " | " + time_list_to_string(self.data['Settings'][key][1])
@@ -231,7 +253,7 @@ class Window:
         
 
 if __name__ == "__main__":
-    version = "v. alpha 0.2.0"
+    version = "v. beta 1.0.0"
     wrp_title = "Wallpaper Roll Project " + version
 
     data = cfg.load_config()
@@ -240,6 +262,6 @@ if __name__ == "__main__":
                  title=wrp_title,
                  icon="sample_icon.ico",
                  data=data,
-                 resizeable=(True, True),
+                 resizeable=(False, False),
                  minsize=(600, 500))
     win.run()
