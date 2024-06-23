@@ -162,7 +162,8 @@ class Window:
 
         setting_listbox = tk.Listbox(frame_theme_settings)
         setting_title_entry = tk.Spinbox(frame_theme_settings, width=10,
-                                         values=list(self.data['Themes'].keys()))
+                                         values=list(self.data['Themes'].keys()),
+                                         wrap=True,)
         setting_time_entry = tk.Spinbox(frame_theme_settings, width=10,
                                         values=time_values())
         setting_interval_entry = tk.Spinbox(frame_theme_settings, width=10,
@@ -253,7 +254,7 @@ class Window:
         
 
 if __name__ == "__main__":
-    version = "v. beta 1.0.0"
+    version = "v. beta 1.0.1"
     wrp_title = "Wallpaper Roll Project " + version
 
     data = cfg.load_config()

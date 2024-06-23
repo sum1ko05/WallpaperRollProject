@@ -33,10 +33,6 @@ def cmp_time(a:list, b:list) -> bool:
         return a[2] >= b[2]
     return False
 
-#Sample path
-mypath = "C:/Users/User/Documents/GitHub/WallpaperRollProject/SampleTheme"
-f = os.listdir(mypath)
-
 def delta_time(from_time:list, to_time:list) -> int:
     from_time_int = from_time[2] + (from_time[1] * 60) + (from_time[0] * 60 * 60)
     to_time_int = to_time[2] + (to_time[1] * 60) + (to_time[0] * 60 * 60)
