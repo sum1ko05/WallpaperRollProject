@@ -254,7 +254,7 @@ class Window:
         
 
 if __name__ == "__main__":
-    version = "v. beta 1.0.1"
+    version = "v. beta 1.0.2"
     wrp_title = "Wallpaper Roll Project " + version
 
     data = cfg.load_config()

@@ -52,7 +52,7 @@ if mode == 'Autostart only': #Autostart only
     exit()
 elif mode == 'Fixed interval (random)': #Fixed interval (random)
     theme = data.get('Fixed theme')
-    interval = data.get('Fixed interval')
+    interval = delta_time([0, 0, 0], data.get('Fixed interval'))
     theme_path = data.get("Themes").get(theme)
     images = get_images(theme_path)
     current_image = ""
@@ -68,7 +68,7 @@ elif mode == 'Fixed interval (random)': #Fixed interval (random)
     exit()
 elif mode == 'Fixed interval (linear)': #Fixed interval (linear)
     theme = data.get('Fixed theme')
-    interval = data.get('Fixed interval')
+    interval = delta_time([0, 0, 0], data.get('Fixed interval'))
     theme_path = data.get("Themes").get(theme)
     images = get_images(theme_path)
     current_image = ""
